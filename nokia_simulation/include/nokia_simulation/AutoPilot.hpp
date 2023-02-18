@@ -7,6 +7,8 @@
 
 namespace AutoPilot
 {
+    geometry_msgs::Pose Pose(float x, float y, float z); //For setting waypoints
+
     class Mode
     {   
         public:

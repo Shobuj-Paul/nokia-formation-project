@@ -2,6 +2,15 @@
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 
+geometry_msgs::Pose AutoPilot::Pose(float x, float y, float z)
+    {
+        geometry_msgs::Pose pose;
+        pose.position.x = x;
+        pose.position.y = y;
+        pose.position.z = z;
+        return pose;
+    }
+
 void AutoPilot::Mode::setArm(ros::ServiceClient arming_client)
 {
     mavros_msgs::CommandBool arm_cmd;
