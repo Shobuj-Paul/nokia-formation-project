@@ -1,0 +1,167 @@
+# Task 0: Installation and Setup
+
+### ROS Noetic Installation:
+Follow this [ROS Wiki](https://wiki.ros.org/) link for full ROS Noetic installation: [ROS Noetic Installation on Ubuntu 20.04](http://wiki.ros.org/noetic/Installation/Ubuntu).
+
+### General Dependencies:
+To use all provided utilities, there are some packages you need to install first. Install the package dependencies given below:
+
+```bash
+sudo apt install -y \
+	ninja-build \
+	exiftool \
+	python3-empy \
+	python3-toml \
+	python3-numpy \
+	python3-yaml \
+	python3-dev \
+	python3-pip \
+	ninja-build \
+	protobuf-compiler \
+	libeigen3-dev \
+	genromfs \
+    libignition-rendering3 \
+    xmlstarlet \
+    libgstreamer-plugins-base1.0-dev \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-ugly
+```
+
+Install the python dependencies given below.
+
+```bash
+pip3 install \
+	pandas \
+	jinja2 \
+	pyserial \
+	cerberus \
+	pyulog \
+	numpy \
+	toml \
+	pyquaternion \
+    kconfiglib \
+    --user packaging \
+    --user jsonschema
+```
+
+Remember to remove python 2.7 in case it is installed, otherwise cmake considers it as the default python interpreter.
+
+```bash
+sudo apt remove python2 && sudo apt autoremove
+```
+
+### MAVROS Installation:
+
+MAVROS is a communication node based on MAVLink for ROS that is specially designed for communication between the drone and the companion computer. To install it, follow the following instructions.
+
+```bash 
+sudo apt install python3-catkin-tools python3-rosinstall-generator python3-osrf-pycommon -y 
+```
+
+**Step 1.** Create the workspace:
+```bash
+mkdir -p ~/px4_ws/src
+cd ~/px4_ws
+catkin init
+wstool init src
+```
+
+**Step 2.** Install MAVLink: we use the Kinetic reference for all ROS distros as it’s not distro-specific and up to date
+```bash
+rosinstall_generator --rosdistro noetic mavlink | tee /tmp/mavros.rosinstall
+```
+
+**Step 3.** Install MAVROS: get source (upstream - released)
+```bash
+rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
+```
+Alternatively, you can get the latest development version:
+```bash
+rosinstall_generator --upstream-development mavros | tee -a /tmp/mavros.rosinstall
+```
+
+**Step 4.** Create workspace & deps
+```bash
+wstool merge -t src /tmp/mavros.rosinstall
+wstool update -t src -j4
+rosdep install --from-paths src --ignore-src -y
+```
+**Step 5.** Install GeographicLib datasets:
+```bash
+sudo ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
+```
+
+**Step 6.** Build source
+```bash
+catkin build
+```
+
+**Step 7.** Make sure that you use setup.bash
+```bash
+source devel/setup.bash
+```
+
+### PX4 Firmware Installation:
+
+Clone the PX4 Repository. We will be cloning a particular version for ROS 1 usage:
+```bash
+cd ~/px4_ws/src
+git clone --branch=release/1.14 https://github.com/PX4/PX4-Autopilot.git --recursive
+cd PX4-Autopilot/
+make px4_sitl_default gazebo
+```
+>Current versions of PX4 require an additional command to function properly. After cloning the PX4 repo and before building the workspace, cd into it
+>```bash
+>cd ~/px4_ws/src/PX4-Autopilot
+>```
+>and then run
+>```bash
+>DONT_RUN=1 make px4_sitl_default gazebo
+>```
+>This command enables PX4 to configure itself for working with Gazebo.
+
+Now you should see a window pop out and a drone in the middle of the environment. After verifying, press Control-C in the command line to quit Gazebo and close the window.
+
+### PX4 Enviroment:
+
+Build you workspace:
+```bash
+cd ~/px4_ws
+catkin build
+```
+Some extra tools to install:
+
+```bash
+pip3 install px4tools pymavlink
+```
+
+Modifying your ‘bashrc’ so that your environment remains the same every time you open a new terminal:
+```bash
+source ~/px4_ws/devel/setup.bash
+source ~/px4_ws/src/PX4-Autopilot/Tools/simulation/gazebo/setup_gazebo.bash ~/px4_ws/src/PX4-Autopilot/ ~/px4_ws/src/PX4-Autopilot/build/px4_sitl_default
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/px4_ws/src/PX4-Autopilot
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/px4_ws/src/PX4-Autopilot/Tools/simulation/gazebo/sitl_gazebo
+```
+
+### QGroundControl Installation
+QGroundControl (or QGC) is used for a GUI interface for setting paramters, autopilot calibration and GPS view for UAV.
+
+- On the command prompt enter:
+```bash
+sudo usermod -a -G dialout $USER
+sudo apt-get remove modemmanager -y
+sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
+```
+- Logout and login again to enable the change to user permissions.
+- Download [QGroundControl.AppImage](https://s3-us-west-2.amazonaws.com/qgroundcontrol/latest/QGroundControl.AppImage)
+```bash
+wget https://s3-us-west-2.amazonaws.com/qgroundcontrol/latest/QGroundControl.AppImage
+```
+- Install (and run) using the terminal commands:
+
+```bash
+chmod +x QGroundControl.AppImage
+./QGroundControl.AppImage
+```
