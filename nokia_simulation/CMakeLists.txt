@@ -123,7 +123,8 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
-  src/${PROJECT_NAME}/AutoPilot.cpp
+    src/${PROJECT_NAME}/AutoPilot.cpp
+    src/${PROJECT_NAME}/Graph.cpp
 )
 
 ## Add cmake target dependencies of the library
@@ -139,6 +140,9 @@ add_executable(setpoint_test src/setpoint_test.cpp)
 add_dependencies(setpoint_test ${catkin_EXPORTED_TARGETS})
 target_link_libraries(setpoint_test ${PROJECT_NAME} ${catkin_LIBRARIES})
 
+add_executable(circle src/circle.cpp)
+add_dependencies(circle ${catkin_EXPORTED_TARGETS})
+target_link_libraries(circle ${PROJECT_NAME} ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
