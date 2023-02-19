@@ -4,6 +4,7 @@
 #include <mavros_msgs/State.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseArray.h>
+#include <geometry_msgs/TwistStamped.h>
 
 namespace AutoPilot
 {
@@ -26,12 +27,15 @@ namespace AutoPilot
         public:
         mavros_msgs::State state;
         geometry_msgs::PoseStamped pose;
+        geometry_msgs::TwistStamped velocity;
         geometry_msgs::PoseStamped leader_pose;
         geometry_msgs::PoseArray setpoints;
 
         void state_cb(const mavros_msgs::State::ConstPtr& msg); //state feedback
 
         void pos_cb(const geometry_msgs::PoseStamped::ConstPtr& msg); //position feedback
+
+        void velocity_cb(const geometry_msgs::TwistStamped::ConstPtr& msg); //velocity feedback
 
         void leader_pose_cb(const geometry_msgs::PoseStamped::ConstPtr& msg); //leader position feedback
 

@@ -71,3 +71,8 @@ void AutoPilot::StateMonitor::waypoints_list_cb(const geometry_msgs::PoseArray::
     setpoints = *msg;
 }
 
+void AutoPilot::StateMonitor::velocity_cb(const geometry_msgs::TwistStamped::ConstPtr& msg)
+{
+    velocity = *msg;
+}
+
