@@ -105,9 +105,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS geometry_msgs mavros_msgs roscpp std_msgs
+#  INCLUDE_DIRS include
+#  LIBRARIES ${PROJECT_NAME}
+#  CATKIN_DEPENDS geometry_msgs mavros_msgs roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -118,15 +118,14 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}
-    src/${PROJECT_NAME}/AutoPilot.cpp
-    src/${PROJECT_NAME}/Graph.cpp
-)
+# add_library(${PROJECT_NAME}
+#     src/${PROJECT_NAME}/AutoPilot.cpp
+# )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -139,15 +138,15 @@ add_library(${PROJECT_NAME}
 
 add_executable(setpoint_test src/setpoint_test.cpp)
 add_dependencies(setpoint_test ${catkin_EXPORTED_TARGETS})
-target_link_libraries(setpoint_test ${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(setpoint_test ${catkin_LIBRARIES})
 
 add_executable(circle src/circle.cpp)
 add_dependencies(circle ${catkin_EXPORTED_TARGETS})
-target_link_libraries(circle ${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(circle ${catkin_LIBRARIES})
 
 add_executable(network src/network.cpp)
 add_dependencies(network ${catkin_EXPORTED_TARGETS})
-target_link_libraries(network ${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(network ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
