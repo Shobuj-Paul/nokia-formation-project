@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(nokia_simulation)
+project(nokia_libraries)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
  add_compile_options(-std=c++11)
@@ -11,8 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   mavros_msgs
   roscpp
+  sensor_msgs
   std_msgs
-  nokia_libraries
 )
 
 ## System dependencies are found with CMake's conventions
@@ -72,7 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   mavros_msgs#   std_msgs
+#   geometry_msgs#   mavros_msgs#   sensor_msgs#   std_msgs
 # )
 
 ################################################
@@ -106,8 +106,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS geometry_msgs mavros_msgs roscpp std_msgs
+  LIBRARIES nokia_libraries
+  CATKIN_DEPENDS geometry_msgs mavros_msgs roscpp sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
@@ -136,18 +136,7 @@ add_library(${PROJECT_NAME}
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-
-add_executable(setpoint_test src/setpoint_test.cpp)
-add_dependencies(setpoint_test ${catkin_EXPORTED_TARGETS})
-target_link_libraries(setpoint_test ${PROJECT_NAME} ${catkin_LIBRARIES})
-
-add_executable(circle src/circle.cpp)
-add_dependencies(circle ${catkin_EXPORTED_TARGETS})
-target_link_libraries(circle ${PROJECT_NAME} ${catkin_LIBRARIES})
-
-add_executable(network src/network.cpp)
-add_dependencies(network ${catkin_EXPORTED_TARGETS})
-target_link_libraries(network ${PROJECT_NAME} ${catkin_LIBRARIES})
+# add_executable(${PROJECT_NAME}_node src/nokia_libraries_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -193,11 +182,11 @@ target_link_libraries(network ${PROJECT_NAME} ${catkin_LIBRARIES})
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.hpp"
+  PATTERN ".svn" EXCLUDE
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -211,7 +200,7 @@ target_link_libraries(network ${PROJECT_NAME} ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_nokia_simulation.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_nokia_libraries.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
