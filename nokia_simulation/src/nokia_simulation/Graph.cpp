@@ -2,8 +2,12 @@
 
 namespace std {
 
-    Graph::Graph(int numVertices, bool isDirected) : numVertices(numVertices), isDirected(isDirected) {
+    Graph::Graph(std::vector<std::string> vertices, bool isDirected)
+                 : numVertices(vertices.size()), isDirected(isDirected) {
         numEdges = 0;
+        for(int i=0; i<vertices.size(); i++)
+            vertexList[vertices[i]] = i;
+        
         adjMatrix = new int*[numVertices];
         for(int i=0; i<numVertices; i++)
             adjMatrix[i] = new int[numVertices];
@@ -57,8 +61,7 @@ namespace std {
         }
     }
 
-    void Graph::removeEdge(int v1, int v2)
-    {
+    void Graph::removeEdge(int v1, int v2) {
         if(isEdge(v1, v2)) {
             for(int i=0; i<edgeList.size(); i++) {
                 if((edgeList[i].first == v1 && edgeList[i].second == v2) ||
@@ -129,6 +132,15 @@ namespace std {
         for(int i=0; i<edgeList.size(); i++)
             std::cout << edgeList[i].first << " " << edgeList[i].second << std::endl;
         std::cout << "---" << std::endl;
+    }
+
+    void Graph::printVertexList() {
+        std::cout << "Vertex List:" << std::endl;
+        std::cout << "---------------------" << std::endl;
+        std::map<std::string, int>::iterator it;
+        for(it=vertexList.begin(); it!=vertexList.end(); it++)
+            std::cout << "Vertex: " << it->first << " Index: " << it->second << std::endl;
+        std::cout << "---------------------" << std::endl;
     }
 
 }
