@@ -144,6 +144,10 @@ add_executable(circle src/circle.cpp)
 add_dependencies(circle ${catkin_EXPORTED_TARGETS})
 target_link_libraries(circle ${PROJECT_NAME} ${catkin_LIBRARIES})
 
+add_executable(network src/network.cpp)
+add_dependencies(network ${catkin_EXPORTED_TARGETS})
+target_link_libraries(network ${PROJECT_NAME} ${catkin_LIBRARIES})
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
