@@ -21,7 +21,7 @@ namespace std {
     Graph::~Graph(){
         for(int i=0; i<numVertices; i++)
             delete[] adjMatrix[i];
-        delete adjMatrix;
+        delete[] adjMatrix;
     }
 
     int Graph::getNumVertices() {
