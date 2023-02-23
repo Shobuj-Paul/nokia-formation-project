@@ -129,7 +129,7 @@ namespace std {
         }
     }
     
-    void Graph::printGraph() {
+    void Graph::printAdjacencyMatrix() {
         std::cout << "Adjacency Matrix:" << std::endl;
         std::cout << "-----------------" << std::endl;
         for(int i=0; i<numVertices; i++) {
