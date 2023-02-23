@@ -6,10 +6,10 @@ int main(int argc, char **argv)
     uavs = {"uav0", "uav1", "uav2", "uav3"};
     std::Graph g(uavs);
 
-    g.addEdge(0, 1);
-    g.addEdge(1, 2);
-    g.addEdge(2, 3);
-    g.addEdge(3, 0);
+    g.addEdge("uav0", "uav1");
+    g.addEdge("uav1", "uav2");
+    g.addEdge("uav2", "uav3");
+    g.addEdge("uav3", "uav0");
     g.printGraph();
 
     g.clearEdges();

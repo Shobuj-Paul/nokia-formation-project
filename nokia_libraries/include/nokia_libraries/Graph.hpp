@@ -19,10 +19,11 @@ namespace std {
             ~Graph();
             int getNumVertices();
             int getNumEdges();
-            bool isEdge(int v1, int v2);
+            bool isEdge(int, int);
             bool isRigid();
-            void addEdge(int v1, int v2);
-            void removeEdge(int v1, int v2);
+            void addEdge(std::string, std::string);
+            void addEdge(int, int);
+            void removeEdge(int, int);
             void clearEdges();
             void rigidify();
             void printGraph();

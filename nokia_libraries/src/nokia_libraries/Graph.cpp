@@ -32,40 +32,54 @@ namespace std {
         return numEdges;
     }
 
-    bool Graph::isEdge(int v1, int v2) {
+    bool Graph::isEdge(int vertex_1, int vertex_2) {
         if(isDirected==false){
             for(int i=0; i<edgeList.size(); i++) {
-                if((edgeList[i].first == v1 && edgeList[i].second == v2) ||
-                   (edgeList[i].first == v2 && edgeList[i].second == v1))
+                if((edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2) ||
+                   (edgeList[i].first == vertex_2 && edgeList[i].second == vertex_1))
                     return true;
             }
         }
         else if(isDirected==true){
             for(int i=0; i<edgeList.size(); i++) {
-                if(edgeList[i].first == v1 && edgeList[i].second == v2)
+                if(edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2)
                     return true;
             }
         }
         return false;
     }
 
-    void Graph::addEdge(int v1, int v2) {
+    void Graph::addEdge(std::string agent1, std::string agent2) {
         numEdges++;
-        edgeList.push_back(make_pair(v1, v2));
+        int vertex_1 = vertexList[agent1];
+        int vertex_2 = vertexList[agent2];
+        edgeList.push_back(make_pair(vertex_1, vertex_2));
         if(isDirected==false) {
-            adjMatrix[v1][v2] = 1;
-            adjMatrix[v2][v1] = 1;
+            adjMatrix[vertex_1][vertex_2] = 1;
+            adjMatrix[vertex_2][vertex_1] = 1;
         }
         else if(isDirected==true) {
-            adjMatrix[v1][v2] = 1;
+            adjMatrix[vertex_1][vertex_2] = 1;
         }
     }
 
-    void Graph::removeEdge(int v1, int v2) {
-        if(isEdge(v1, v2)) {
+    void Graph::addEdge(int vertex_1, int vertex_2) {
+        numEdges++;
+        edgeList.push_back(make_pair(vertex_1, vertex_2));
+        if(isDirected==false) {
+            adjMatrix[vertex_1][vertex_2] = 1;
+            adjMatrix[vertex_2][vertex_1] = 1;
+        }
+        else if(isDirected==true) {
+            adjMatrix[vertex_1][vertex_2] = 1;
+        }
+    }
+
+    void Graph::removeEdge(int vertex_1, int vertex_2) {
+        if(isEdge(vertex_1, vertex_2)) {
             for(int i=0; i<edgeList.size(); i++) {
-                if((edgeList[i].first == v1 && edgeList[i].second == v2) ||
-                   (edgeList[i].first == v2 && edgeList[i].second == v1)) {
+                if((edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2) ||
+                   (edgeList[i].first == vertex_2 && edgeList[i].second == vertex_1)) {
                     edgeList.erase(edgeList.begin() + i);
                     numEdges--;
                     break;
@@ -73,11 +87,11 @@ namespace std {
             }
         }
         if (isDirected == false){
-            adjMatrix[v1][v2] = 0;
-            adjMatrix[v2][v1] = 0;
+            adjMatrix[vertex_1][vertex_2] = 0;
+            adjMatrix[vertex_2][vertex_1] = 0;
         }
         else if (isDirected == true){
-            adjMatrix[v1][v2] = 0;
+            adjMatrix[vertex_1][vertex_2] = 0;
         }
     }
 
