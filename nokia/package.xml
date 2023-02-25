@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>nokia_project</name>
+  <name>nokia</name>
   <version>0.0.0</version>
   <description>metapackage for the nokia project</description>
 
