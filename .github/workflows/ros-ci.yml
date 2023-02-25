@@ -49,7 +49,7 @@ jobs:
       - name: Build and Test
         uses: ros-tooling/action-ros-ci@v0.2
         with:
-          package-name: nokia_project
+          package-name: nokia
           target-ros1-distro: ${{ matrix.ros_distribution }}
           import-token: ${{ secrets.GITHUB_TOKEN }}
           vcs-repo-file-url: ""
