@@ -51,4 +51,5 @@ jobs:
         with:
           package-name: nokia_project
           target-ros1-distro: ${{ matrix.ros_distribution }}
+          import-token: ${{ secrets.GITHUB_TOKEN }}
           vcs-repo-file-url: ""
