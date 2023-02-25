@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(nokia_project)
+project(nokia)
 find_package(catkin REQUIRED)
 catkin_metapackage()
