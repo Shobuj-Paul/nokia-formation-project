@@ -35,25 +35,25 @@ namespace std {
     bool Graph::isEdge(int vertex_1, int vertex_2) {
         if(isDirected==false){
             for(int i=0; i<edgeList.size(); i++) {
-                if((edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2) ||
-                   (edgeList[i].first == vertex_2 && edgeList[i].second == vertex_1))
+                if(edgeList.find(make_pair(vertex_1, vertex_2)) == edgeList.end() ||
+                   edgeList.find(make_pair(vertex_2, vertex_1)) == edgeList.end())
                     return true;
             }
         }
         else if(isDirected==true){
             for(int i=0; i<edgeList.size(); i++) {
-                if(edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2)
+                if(edgeList.find(make_pair(vertex_1, vertex_2)) == edgeList.end())
                     return true;
             }
         }
         return false;
     }
 
-    void Graph::addEdge(std::string agent1, std::string agent2) {
+    void Graph::addEdge(std::string agent1, std::string agent2, double weight) {
         numEdges++;
         int vertex_1 = vertexList[agent1];
         int vertex_2 = vertexList[agent2];
-        edgeList.push_back(make_pair(vertex_1, vertex_2));
+        edgeList[(make_pair(vertex_1, vertex_2))] = weight;
         if(isDirected==false) {
             adjMatrix[vertex_1][vertex_2] = 1;
             adjMatrix[vertex_2][vertex_1] = 1;
@@ -63,9 +63,9 @@ namespace std {
         }
     }
 
-    void Graph::addEdge(int vertex_1, int vertex_2) {
+    void Graph::addEdge(int vertex_1, int vertex_2, double weight) {
         numEdges++;
-        edgeList.push_back(make_pair(vertex_1, vertex_2));
+        edgeList[make_pair(vertex_1, vertex_2)] = weight;
         if(isDirected==false) {
             adjMatrix[vertex_1][vertex_2] = 1;
             adjMatrix[vertex_2][vertex_1] = 1;
@@ -78,9 +78,8 @@ namespace std {
     void Graph::removeEdge(int vertex_1, int vertex_2) {
         if(isEdge(vertex_1, vertex_2)) {
             for(int i=0; i<edgeList.size(); i++) {
-                if((edgeList[i].first == vertex_1 && edgeList[i].second == vertex_2) ||
-                   (edgeList[i].first == vertex_2 && edgeList[i].second == vertex_1)) {
-                    edgeList.erase(edgeList.begin() + i);
+                if(isEdge(vertex_1, vertex_2)) {
+                    edgeList.erase(make_pair(vertex_1, vertex_2));
                     numEdges--;
                     break;
                 }
@@ -143,8 +142,9 @@ namespace std {
     void Graph::printEdgeList() {
         std::cout << "Edge List:" << std::endl;
         std::cout << "---" << std::endl;
-        for(int i=0; i<edgeList.size(); i++)
-            std::cout << edgeList[i].first << " " << edgeList[i].second << std::endl;
+        std::map<std::pair<int, int>, double>::iterator it;
+        for(it=edgeList.begin(); it!=edgeList.end(); it++)
+            std::cout << "Edge: (" << it->first.first << ", " << it->first.second << ") Weight: " << it->second << std::endl;
         std::cout << "---" << std::endl;
     }
 
@@ -156,5 +156,4 @@ namespace std {
             std::cout << "Vertex: " << it->first << " Index: " << it->second << std::endl;
         std::cout << "---------------------" << std::endl;
     }
-
 }
