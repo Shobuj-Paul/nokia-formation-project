@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <math.h>
 
 namespace std {
 
@@ -10,7 +11,7 @@ namespace std {
         private:
             int numVertices; //Number of nodes
             int numEdges; //Number of connections between nodes
-            int** adjMatrix; //The adjacency matrix containing the connection information
+            double** adjMatrix; //The adjacency matrix containing the connection information
             bool isDirected; //Whether the graph is directed or not
             std::map<std::pair<int, int>, double> edgeList; //Map of edge pairs and their weights
             std::map<std::string, int> vertexList; //The list of vertices in string to integer map format
@@ -18,19 +19,20 @@ namespace std {
             Graph(std::vector<std::string>, bool = false); //Constructor for allocating memory to the adjacency matrix
             ~Graph(); //Destructor for freeing memory from the adjacency matrix
 
-            int getNumVertices(); //Returns the number of nodes in the graph
-            int getNumEdges(); //Returns the number of connections in the graph
+            int NumVertices(); //Returns the number of nodes in the graph
+            int NumEdges(); //Returns the number of connections in the graph
 
-            bool isEdge(int, int); //Returns whether there is an edge between two nodes given node indices
-            bool isRigid(); //Returns whether the graph is stricturally rigid or not
+            bool IsEdge(int, int); //Returns whether there is an edge between two nodes given node indices
+            bool IsRigid(); //Returns whether the graph is stricturally rigid or not
             
-            void addEdge(std::string, std::string, double = 1); //Adds an edge between two nodes given node names
-            void addEdge(int, int, double = 1); //Adds an edge between two nodes given node indices
-            void removeEdge(int, int); //Removes an edge between two nodes given node indices
-            void clearEdges(); //Removes all edges from the graph
-            void rigidify(); //Generates a rigid graph bu adding minimum number of edges required
-            void printAdjacencyMatrix(); //Prints the adjacency matrix
-            void printEdgeList(); //Prints the edge list
-            void printVertexList(); //Prints the vertex list
+            void AddEdge(std::string, std::string, double = 1); //Adds an edge between two nodes given node names
+            void AddEdge(int, int, double = 1); //Adds an edge between two nodes given node indices
+            void RemoveEdge(int, int); //Removes an edge between two nodes given node indices
+            void ClearEdges(); //Removes all edges from the graph
+            void Rigidify(); //Generates a rigid graph by adding minimum number of edges required
+            void RigidPolygon(double); //Generates a rigid graph by adding minimum number of edges required
+            void PrintAdjacencyMatrix(); //Prints the adjacency matrix
+            void PrintEdgeList(); //Prints the edge list
+            void PrintVertexList(); //Prints the vertex list
     };
 }

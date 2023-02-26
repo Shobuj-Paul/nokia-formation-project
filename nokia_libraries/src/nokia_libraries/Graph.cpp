@@ -8,9 +8,9 @@ namespace std {
         for(int i=0; i<vertices.size(); i++)
             vertexList[vertices[i]] = i;
         
-        adjMatrix = new int*[numVertices];
+        adjMatrix = new double*[numVertices];
         for(int i=0; i<numVertices; i++)
-            adjMatrix[i] = new int[numVertices];
+            adjMatrix[i] = new double[numVertices];
 
         for(int i=0; i<numVertices; i++){
             for(int j=0; j<numVertices; j++)
@@ -24,15 +24,15 @@ namespace std {
         delete[] adjMatrix;
     }
 
-    int Graph::getNumVertices() {
+    int Graph::NumVertices() {
         return numVertices;
     }
 
-    int Graph::getNumEdges() {
+    int Graph::NumEdges() {
         return numEdges;
     }
 
-    bool Graph::isEdge(int vertex_1, int vertex_2) {
+    bool Graph::IsEdge(int vertex_1, int vertex_2) {
         if(isDirected==false){
             for(int i=0; i<edgeList.size(); i++) {
                 if(edgeList.find(make_pair(vertex_1, vertex_2)) == edgeList.end() ||
@@ -49,7 +49,7 @@ namespace std {
         return false;
     }
 
-    void Graph::addEdge(std::string agent1, std::string agent2, double weight) {
+    void Graph::AddEdge(std::string agent1, std::string agent2, double weight) {
         numEdges++;
         int vertex_1 = vertexList[agent1];
         int vertex_2 = vertexList[agent2];
@@ -63,7 +63,7 @@ namespace std {
         }
     }
 
-    void Graph::addEdge(int vertex_1, int vertex_2, double weight) {
+    void Graph::AddEdge(int vertex_1, int vertex_2, double weight) {
         numEdges++;
         edgeList[make_pair(vertex_1, vertex_2)] = weight;
         if(isDirected==false) {
@@ -75,10 +75,10 @@ namespace std {
         }
     }
 
-    void Graph::removeEdge(int vertex_1, int vertex_2) {
-        if(isEdge(vertex_1, vertex_2)) {
+    void Graph::RemoveEdge(int vertex_1, int vertex_2) {
+        if(IsEdge(vertex_1, vertex_2)) {
             for(int i=0; i<edgeList.size(); i++) {
-                if(isEdge(vertex_1, vertex_2)) {
+                if(IsEdge(vertex_1, vertex_2)) {
                     edgeList.erase(make_pair(vertex_1, vertex_2));
                     numEdges--;
                     break;
@@ -94,7 +94,7 @@ namespace std {
         }
     }
 
-    void Graph::clearEdges() {
+    void Graph::ClearEdges() {
         edgeList.clear();
         numEdges = 0;
         for(int i=0; i<numVertices; i++){
@@ -103,32 +103,54 @@ namespace std {
         }
     }
 
-    bool Graph::isRigid() {
+    bool Graph::IsRigid() {
         if(numEdges == 2*numVertices-3)
             return true;
         else
             return false;
     }
 
-    void Graph::rigidify() {
+    void Graph::Rigidify() {
         if(numEdges!=0) {
             std::cout << "Graph is not empty. Clear Edges." << std::endl;
             return;
         }
-        else if(isRigid() == true && numEdges == 0) {
+        else if(IsRigid() == true && numEdges == 0) {
             std::cout << "Graph is already rigid." << std::endl;
             return;
         }
-        else if(isRigid() == false && numEdges == 0) {
+        else if(IsRigid() == false && numEdges == 0) {
             for(int i=0; i<numVertices-1; i++)
-                addEdge(i, i+1);
-            addEdge(numVertices-1, 0);
+                AddEdge(i, i+1);
+            AddEdge(numVertices-1, 0);
             for(int i=0; i<numVertices-3; i++)
-                addEdge(0, i+2);
+                AddEdge(0, i+2);
+        }
+    }
+
+    void Graph::RigidPolygon(double sideLength) {
+        auto diagonal = [&](double sideLength, int vertex) -> double {
+            return sideLength*sqrt(2.0 - 2.0*cos(2.0*3.14/vertex));
+        };
+
+        if(numEdges!=0) {
+            std::cout << "Graph is not empty. Clear Edges." << std::endl;
+            return;
+        }
+        else if(IsRigid() == true && numEdges == 0) {
+            std::cout << "Graph is already rigid." << std::endl;
+            return;
+        }
+        else if(IsRigid() == false && numEdges == 0) {
+            for(int i=0; i<numVertices-1; i++)
+                AddEdge(i, i+1, sideLength);
+            AddEdge(numVertices-1, 0);
+            for(int i=0; i<numVertices-3; i++)
+                AddEdge(0, i+2, diagonal(sideLength, i+2));
         }
     }
     
-    void Graph::printAdjacencyMatrix() {
+    void Graph::PrintAdjacencyMatrix() {
         std::cout << "Adjacency Matrix:" << std::endl;
         std::cout << "-----------------" << std::endl;
         for(int i=0; i<numVertices; i++) {
@@ -139,7 +161,7 @@ namespace std {
         std::cout << "-----------------" << std::endl;
     }
     
-    void Graph::printEdgeList() {
+    void Graph::PrintEdgeList() {
         std::cout << "Edge List:" << std::endl;
         std::cout << "---" << std::endl;
         std::map<std::pair<int, int>, double>::iterator it;
@@ -148,7 +170,7 @@ namespace std {
         std::cout << "---" << std::endl;
     }
 
-    void Graph::printVertexList() {
+    void Graph::PrintVertexList() {
         std::cout << "Vertex List:" << std::endl;
         std::cout << "---------------------" << std::endl;
         std::map<std::string, int>::iterator it;
