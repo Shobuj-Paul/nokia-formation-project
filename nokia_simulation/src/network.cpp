@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv)
 {
-    std::vector<std::string> uavs = {"uav0", "uav1", "uav2", "uav3"};
+    std::vector<std::string> uavs = {"uav0", "uav1", "uav2", "uav3", "uav4", "uav5"};
     std::Graph g(uavs);
 
     g.AddEdge("uav0", "uav1", 1);
@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     g.PrintAdjacencyMatrix();
 
     g.ClearEdges();
-    g.RigidPolygon(1);
+    g.MakeRigidPolygon(1);
     g.PrintAdjacencyMatrix();
     g.PrintEdgeList();
     g.PrintVertexList();

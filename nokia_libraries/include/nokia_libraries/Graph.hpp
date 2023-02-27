@@ -29,8 +29,7 @@ namespace std {
             void AddEdge(int, int, double = 1); //Adds an edge between two nodes given node indices
             void RemoveEdge(int, int); //Removes an edge between two nodes given node indices
             void ClearEdges(); //Removes all edges from the graph
-            void Rigidify(); //Generates a rigid graph by adding minimum number of edges required
-            void RigidPolygon(double); //Generates a rigid graph by adding minimum number of edges required
+            void MakeRigidPolygon(double); //Generates a rigid graph by adding minimum number of edges required
             void PrintAdjacencyMatrix(); //Prints the adjacency matrix
             void PrintEdgeList(); //Prints the edge list
             void PrintVertexList(); //Prints the vertex list

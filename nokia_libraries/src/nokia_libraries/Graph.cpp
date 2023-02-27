@@ -110,27 +110,12 @@ namespace std {
             return false;
     }
 
-    void Graph::Rigidify() {
-        if(numEdges!=0) {
-            std::cout << "Graph is not empty. Clear Edges." << std::endl;
-            return;
-        }
-        else if(IsRigid() == true && numEdges == 0) {
-            std::cout << "Graph is already rigid." << std::endl;
-            return;
-        }
-        else if(IsRigid() == false && numEdges == 0) {
-            for(int i=0; i<numVertices-1; i++)
-                AddEdge(i, i+1);
-            AddEdge(numVertices-1, 0);
-            for(int i=0; i<numVertices-3; i++)
-                AddEdge(0, i+2);
-        }
-    }
-
-    void Graph::RigidPolygon(double sideLength) {
+    void Graph::MakeRigidPolygon(double sideLength) {
+        auto deg2radians = [&](double degrees) -> double {
+            return degrees*3.14159265358979323846/180.0;
+        };
         auto diagonal = [&](double sideLength, int vertex) -> double {
-            return sideLength*sqrt(2.0 - 2.0*cos(2.0*3.14/vertex));
+            return sideLength*sqrt(2.0 - 2.0*cos(deg2radians((1-(vertex+1))*360/numVertices)));
         };
 
         if(numEdges!=0) {
