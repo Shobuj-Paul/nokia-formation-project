@@ -1,5 +1,5 @@
 #include<nokia_libraries/Graph.hpp>
-#include<math.h>
+#include<cmath>
 
 int main(int argc, char **argv)
 {
@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     g.AddEdge("uav1", "uav2", 1);
     g.AddEdge("uav2", "uav3", 1);
     g.AddEdge("uav3", "uav0", 1);
-    g.AddEdge("uav2", "uav0", sqrt(2));
+    g.AddEdge("uav2", "uav0", std::sqrt(2));
     g.PrintEdgeList();
     g.PrintAdjacencyMatrix();
 

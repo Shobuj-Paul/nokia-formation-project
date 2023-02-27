@@ -1,10 +1,12 @@
 #include<nokia_libraries/Graph.hpp>
+#include<cmath>
+#define M_PI 3.14159265358979323846
 
 namespace std {
 
     Graph::Graph(std::vector<std::string> vertices, bool isDirected)
-                 : numVertices(vertices.size()), isDirected(isDirected) {
-        numEdges = 0;
+                 : numVertices(vertices.size()), isDirected(isDirected), numEdges(0) {
+        
         for(int i=0; i<vertices.size(); i++)
             vertexList[vertices[i]] = i;
         
@@ -111,11 +113,12 @@ namespace std {
     }
 
     void Graph::MakeRigidPolygon(double sideLength) {
-        auto deg2radians = [&](double degrees) -> double {
-            return degrees*3.14159265358979323846/180.0;
+        auto DegreesToRadians = [&](double degrees) -> double {
+            return degrees*M_PI/180.0;
         };
-        auto diagonal = [&](double sideLength, int vertex) -> double {
-            return sideLength*sqrt(2.0 - 2.0*cos(deg2radians((1-(vertex+1))*360/numVertices)));
+        auto diagonal = [&](double sideLength, int vertexRef) -> double {
+            double arg = (1-(vertexRef))*360/numVertices;
+            return sideLength*std::sqrt(2.0 - 2.0*std::cos(DegreesToRadians(arg)));
         };
 
         if(numEdges!=0) {
@@ -130,8 +133,8 @@ namespace std {
             for(int i=0; i<numVertices-1; i++)
                 AddEdge(i, i+1, sideLength);
             AddEdge(numVertices-1, 0);
-            for(int i=0; i<numVertices-3; i++)
-                AddEdge(0, i+2, diagonal(sideLength, i+2));
+            for(int i=0; i<numVertices-3; i+=2)
+                AddEdge(i, i+2, diagonal(sideLength, i+2));
         }
     }
     

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <math.h>
 
 namespace std {
 
